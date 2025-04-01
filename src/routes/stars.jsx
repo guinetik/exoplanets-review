@@ -60,8 +60,8 @@ export default function StarsPage() {
               </span>
               <Button
                 pill
-                outline={true}
-                gradientDuoTone={sortPlanets === "most" ? "greenToBlue" : "grayToGray"}
+                outline={sortPlanets !== "most"}
+                gradientDuoTone="greenToBlue"
                 size="xs"
                 onClick={() =>
                   setSortPlanets(sortPlanets === "most" ? null : "most")
@@ -72,8 +72,8 @@ export default function StarsPage() {
               </Button>
               <Button
                 pill
-                outline={true}
-                gradientDuoTone={sortPlanets === "least" ? "greenToBlue" : "grayToGray"}
+                outline={sortPlanets !== "least"}
+                gradientDuoTone="greenToBlue"
                 size="xs"
                 onClick={() =>
                   setSortPlanets(sortPlanets === "least" ? null : "least")
@@ -85,11 +85,11 @@ export default function StarsPage() {
               {/* Star Type Filter Dropdown */}
               <Dropdown
                 pill
+                outline={true}
                 gradientDuoTone="greenToBlue"
                 size="xs"
-                dismissOnClick={true}
+                color="white"
                 label="Filter by Star Type"
-                inline
               >
                 {allStarTypes.map((type) => (
                   <Dropdown.Item

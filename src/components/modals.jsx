@@ -8,7 +8,7 @@ import { Button } from "flowbite-react";
 import { AuthContext } from "../data/context";
 import { IoLogoGoogle } from "react-icons/io";
 import { IoMdLogIn } from "react-icons/io";
-import FirebaseData from "../data/firebase.data";
+import FirebaseData from "../data/db";
 import { useAuthState } from "react-firebase-hooks/auth";
 /**
  * Creates a sign-in modal component

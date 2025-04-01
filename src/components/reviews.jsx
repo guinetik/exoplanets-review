@@ -1,6 +1,6 @@
 import "../data/types";
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
-import FirebaseData from "../data/firebase.data";
+import FirebaseData from "../data/db";
 
 const ReviewsComponent = forwardRef((props, ref) => {
   /**
@@ -79,14 +79,14 @@ const ReviewCardComponent = (props) => {
    * @type {PlanetReviews}
    */
   const review = props.review;
-  //console.log("ReviewCardComponent.review:", review);
+  console.log("ReviewCardComponent.review:", review);
   return (
     <article>
       <div className="flex items-center mb-2 space-x-4">
         <img
           className="w-10 h-10 rounded-full"
-          src={review.author.avatar}
-          alt=""
+          src={review.author?.avatar}
+          alt="avatar"
         />
         <div className="space-y-1 font-medium text-teal-300 text-xl">
           <p>

@@ -12,6 +12,12 @@ export default function PlanetPage() {
   //const [count, setCount] = useState(0);
   const [planets, setPlanets] = useState(AppData.exoplanets.slice(0, itemsPerPage));
   window.scrollTo({ top: 0, behavior: "smooth" });
+  console.log(
+    planets
+      .map(p => p?.id)
+      .filter(Boolean)
+      .join(', ')
+  );
   //
   return (
     <main className="w-full flex justify-center items-center">

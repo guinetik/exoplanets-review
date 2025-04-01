@@ -4,7 +4,7 @@ import KeplerNav from "./components/nav";
 import { useEffect, useState } from "react";
 import AppData from "./data/app.data";
 import toast, { Toaster } from "react-hot-toast";
-import FirebaseData from "./data/firebase.data";
+import FirebaseData from "./data/db";
 
 export default function App() {
   const [loading, setLoading] = useState(true);

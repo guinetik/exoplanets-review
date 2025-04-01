@@ -22,14 +22,15 @@ import {
   Firestore,
 } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyAQPF1tgRiHvVNZUmziPUtVQ6A7voU5KPw",
-  authDomain: "exoplanets-review.firebaseapp.com",
-  projectId: "exoplanets-review",
-  storageBucket: "exoplanets-review.appspot.com",
-  messagingSenderId: "779246060594",
-  appId: "1:779246060594:web:33d48d828279ce9c14282b",
-  measurementId: "G-8YX3L9QD5V",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
+
 /**
  * @class FirebaseData
  * I'm a firebase noob, so I'm collating all related functions is this pseudo-class prototype.
@@ -80,7 +81,6 @@ class DBConnection {
     limitFunction
   ) => {
     if(orderByFunction) {
-      console.log("orderByFunction", orderByFunction);
       return query(firebaseCollection, whereConstraint, orderByFunction);
     } else {
       return query(firebaseCollection, whereConstraint);

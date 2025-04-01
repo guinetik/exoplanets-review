@@ -9,7 +9,7 @@ import ReviewsComponent from "../components/reviews";
 import { Button } from "flowbite-react";
 import { MdOutlineRateReview } from "react-icons/md";
 import { BiPlanet } from "react-icons/bi";
-import FirebaseData from "../data/firebase.data";
+import FirebaseData from "../data/db";
 import { ReviewModal } from "../components/modals";
 //
 export default function PlanetPage() {

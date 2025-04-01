@@ -6,7 +6,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../data/context";
 import { SignInModal, SignUpModal } from "./modals";
 import AppData from "../data/app.data";
-import FirebaseData from "../data/firebase.data";
+import FirebaseData from "../data/db";
 import logo from "../logo.svg";
 /**
  * Creates a nav component with a mobile dropdown menu and sign-in options.

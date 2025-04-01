@@ -136,6 +136,7 @@ const SolarSystemFactory = {
               orbitNode: -TAU * (0.206 * planetCounts.neptuneLike),
               satelliteOf: star.id,
               type: "planet",
+              exo:exo
             };
           } else {
             //console.log("rendering pluto-like");
@@ -157,6 +158,7 @@ const SolarSystemFactory = {
               orbitTranslateZ: -5, //weird-ass pluto orbit
               satelliteOf: star.id,
               type: "planet",
+              exo:exo
             };
           }
         } else {
@@ -178,6 +180,7 @@ const SolarSystemFactory = {
             orbitNode: -TAU * (0.366 * planetCounts.neptuneLike),
             satelliteOf: star.id,
             type: "planet",
+            exo:exo
           };
         }
         break;
@@ -209,6 +212,7 @@ const SolarSystemFactory = {
           orbitNode: -TAU * (0.138 * planetCounts.terrestrial),
           satelliteOf: star.id,
           type: "planet",
+          exo:exo
         };
         break;
       case "super earth":
@@ -239,6 +243,7 @@ const SolarSystemFactory = {
           orbitNode: -TAU * (0.138 * planetCounts.superEarth),
           satelliteOf: star.id,
           type: "planet",
+          exo:exo
         };
       case "gas giant":
         planetCounts.gasGiant++;
@@ -267,6 +272,7 @@ const SolarSystemFactory = {
             orbitNode: -TAU * (0.279 * planetCounts.gasGiant),
             satelliteOf: star.id,
             type: "planet",
+            exo:exo
           };
         } else if (exo.plType.toLowerCase() === "jovian") {
           //console.log("rendering ringed planet");
@@ -287,6 +293,7 @@ const SolarSystemFactory = {
             orbitNode: -TAU * (0.316 * planetCounts.gasGiant),
             satelliteOf: star.id,
             type: "planet",
+            exo:exo
           });
           planetz.push({
             name: "ringSaturn",
@@ -313,6 +320,7 @@ const SolarSystemFactory = {
             orbitNode: -TAU * (0.206 * planetCounts.gasGiant),
             satelliteOf: star.id,
             type: "planet",
+            exo:exo
           };
         }
 
@@ -329,6 +337,7 @@ const SolarSystemFactory = {
           orbitNode: -TAU * 0.314,
           satelliteOf: star.id,
           type: "planet",
+          exo:exo
         };
     }
   },

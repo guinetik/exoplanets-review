@@ -1,5 +1,5 @@
 import { Table } from "flowbite-react";
-import SolarSystem from "../components/solarsystem";
+import StarSystem from "../components/starsystem";
 import AppData from "../data/app.data";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -37,9 +37,7 @@ export default function Star() {
             {star.displayName}
           </h1>
           {star ? (
-            <div
-              className="w-full h-full p-4 gap-4"
-            >
+            <div className="w-full h-full p-4 gap-4">
               <div
                 className="col-span-1 xl:col-span-3 2xl:col-span-3
                 h-[calc(50vh)]
@@ -48,7 +46,7 @@ export default function Star() {
               >
                 <div className="w-full h-full relative">
                   {solarSystem && (
-                    <SolarSystem planets={solarSystem} star={AppData.star} />
+                    <StarSystem planets={solarSystem} star={AppData.star} />
                   )}
                 </div>
               </div>

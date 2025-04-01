@@ -6,12 +6,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages --dist dist --branch 'gh-pages'"
+    "build:deploy": "npm run build && node ./builddeploy.js && npm run deploy",
+    "deploy": "gh-pages --dist dist --branch gh-pages"
   },
   "dependencies": {
     "firebase": "^9.9.0",
     "flowbite": "^1.4.7",
-    "flowbite-react": "^0.0.26",
+    "flowbite-react": "0.1.5",
     "pako": "^2.0.4",
     "react": "^18.0.0",
     "react-custom-scroll": "^4.4.0",

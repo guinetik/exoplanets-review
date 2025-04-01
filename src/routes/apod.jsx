@@ -2,7 +2,7 @@ import AppData from "../data/app.data";
 import { useState, useEffect } from "react";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { Button } from "flowbite-react";
-import FirebaseData from "../data/firebase.data";
+import FirebaseData from "../data/db";
 
 export default function Apod() {
   const d = new Date();
