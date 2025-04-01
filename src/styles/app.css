@@ -181,3 +181,7 @@ html {
 .star_rating a.on {
   color: #ffc500;
 }
+
+.bg {
+  z-index: -1;
+}
