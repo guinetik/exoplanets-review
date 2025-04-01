@@ -74,27 +74,27 @@ export default function Home() {
                         href='/#/stars/'
                         outline={true}
                         gradientDuoTone='pinkToOrange'
-                        size='xl'
+                        size='md'
                       >
                         <GrSolaris
                           className='text-xl group-hover:animate-spin transition-all'
                           size={28}
                         />
-                        <span className='sm:text-md md:text-md lg:text-lg'>
-                          Discover the Stars
+                        <span className='text-md'>
+                          Reach the Stars
                         </span>
                       </Button>
                       <Button
                         href='/#/planets/'
                         outline={true}
                         gradientDuoTone='cyanToBlue'
-                        size='xl'
+                        size='md'
                       >
                         <IoIosPlanet
                           className='text-xl group-hover:animate-spin3d transition-all'
                           size={28}
                         />
-                        <span className='sm:text-md md:text-md lg:text-lg'>
+                        <span className='text-md'>
                           Featured Planets
                         </span>
                       </Button>
