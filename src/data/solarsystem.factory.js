@@ -1,26 +1,26 @@
-import "./types"
-import Zdog from "zdog";
+import './types';
+import Zdog from 'zdog';
 const { TAU } = Zdog;
 const SolarSystemFactory = {
   stellarColors: {
-    M: "#fe0000",
-    K: "#ff6600  ",
-    G: "#ffff00",
-    F: "#feff99",
-    A: "#ffffff",
-    B: "#99cdff",
-    O: "#0071c1",
+    M: '#fe0000',
+    K: '#ff6600  ',
+    G: '#ffff00',
+    F: '#feff99',
+    A: '#ffffff',
+    B: '#99cdff',
+    O: '#0071c1',
   },
-  neptuneLikeColors: ["#30838C", "#44A6A6", "#7AF4FE", "#4681A6", "#2B5F8C"],
-  gasGiantColors: ["#734040", "#A67360", "#D9A384", "#8C311C", "#D98825"],
-  terrestrialColors: ["#ce4436", "#b13230", "#a32e2c", "#ff4847", "#ff6443"],
-  superEarthColors: ["#736048", "#736048", "#627173", "#A9C2D9"],
+  neptuneLikeColors: ['#30838C', '#44A6A6', '#7AF4FE', '#4681A6', '#2B5F8C'],
+  gasGiantColors: ['#734040', '#A67360', '#D9A384', '#8C311C', '#D98825'],
+  terrestrialColors: ['#ce4436', '#b13230', '#a32e2c', '#ff4847', '#ff6443'],
+  superEarthColors: ['#736048', '#736048', '#627173', '#A9C2D9'],
   getPlanetColor: (planet, id) => {
-    const planetColors= {
-      "neptune-like": ["#30838C", "#44A6A6", "#7AF4FE", "#4681A6", "#2B5F8C"],
-      "terrestrial": ["#ce4436", "#b13230", "#a32e2c", "#ff4847", "#ff6443"],
-      "super earth":  ["#736048", "#736048", "#627173", "#A9C2D9"],
-      "gas giant": ["#734040", "#A67360", "#D9A384", "#8C311C", "#D98825"],
+    const planetColors = {
+      'neptune-like': ['#30838C', '#44A6A6', '#7AF4FE', '#4681A6', '#2B5F8C'],
+      terrestrial: ['#ce4436', '#b13230', '#a32e2c', '#ff4847', '#ff6443'],
+      'super earth': ['#736048', '#736048', '#627173', '#A9C2D9'],
+      'gas giant': ['#734040', '#A67360', '#D9A384', '#8C311C', '#D98825'],
     };
     const query = planet.planet_type.toLowerCase();
     return planetColors[query][id % planetColors[query].length];
@@ -28,7 +28,7 @@ const SolarSystemFactory = {
   getStarColorByStarType(type) {
     return SolarSystemFactory.stellarColors[type]
       ? SolarSystemFactory.stellarColors[type]
-      : "#eb710b";
+      : '#eb710b';
   },
   findExoplanetById: (id, exoplanets) => {
     return exoplanets.find((e) => {
@@ -51,8 +51,8 @@ const SolarSystemFactory = {
         color: SolarSystemFactory.getStarColorByStarType(star.starType),
         orbitDiameter: 0,
         starLight: 1.2 * star.st_lum, //multplying 1.2 (default value for our Sun) by st_lum which is the luminosity of the star measured in units of solar luminosities
-        starColor: "#eb710b66",
-        type: "star",
+        starColor: '#eb710b66',
+        type: 'star',
       },
     ];
     //
@@ -83,7 +83,7 @@ const SolarSystemFactory = {
   },
   /**
    * Generates a planet render for Zdog based on a planet's data
-   * TODO: refactor this code so it's less imperative and more functional. think of creating a function that receives exo and returns a value for each parameter 
+   * TODO: refactor this code so it's less imperative and more functional. think of creating a function that receives exo and returns a value for each parameter
    * @param {Planet} planet - The planet to generate
    * @returns {StellarBody} - The stellar body of the solar system
    */
@@ -105,7 +105,7 @@ const SolarSystemFactory = {
     };
     */
     switch (exo.planet_type.toLowerCase()) {
-      case "neptune-like":
+      case 'neptune-like':
         /* console.log(
           "processing Neptune-like...",
           planetCounts.neptuneLike,
@@ -115,7 +115,7 @@ const SolarSystemFactory = {
           exo.pl_orbeccen
         ); */
         planetCounts.neptuneLike++;
-        if ("sub-neptunian" === exo.plType.toLowerCase()) {
+        if ('sub-neptunian' === exo.plType.toLowerCase()) {
           //console.log("rendering sub neptunian");
           // if counter is divisible by 2, then we render a Pluto-like planet
           if (planetCounts.neptuneLike % 2 === 0) {
@@ -131,12 +131,12 @@ const SolarSystemFactory = {
                 ],
               orbitDiameter:
                 72 * (planetCounts.neptuneLike / 2 + star.st_rad / 2),
-              orbitPeriod: 365 / exo.pl_orbper + 365/2,
-              orbitTilt: -TAU * (exo.pl_orbeccen),
+              orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+              orbitTilt: -TAU * exo.pl_orbeccen,
               orbitNode: -TAU * (0.206 * planetCounts.neptuneLike),
               satelliteOf: star.id,
-              type: "planet",
-              exo:exo
+              type: 'planet',
+              exo: exo,
             };
           } else {
             //console.log("rendering pluto-like");
@@ -152,13 +152,13 @@ const SolarSystemFactory = {
                 ],
               orbitDiameter:
                 90 * (planetCounts.neptuneLike / 2 + star.st_rad / 2),
-              orbitPeriod: 365 / exo.pl_orbper + 365/2,
-              orbitTilt: -TAU * (exo.pl_orbeccen),
+              orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+              orbitTilt: -TAU * exo.pl_orbeccen,
               orbitNode: -TAU * 0.306,
               orbitTranslateZ: -5, //weird-ass pluto orbit
               satelliteOf: star.id,
-              type: "planet",
-              exo:exo
+              type: 'planet',
+              exo: exo,
             };
           }
         } else {
@@ -175,16 +175,16 @@ const SolarSystemFactory = {
               ],
             orbitDiameter:
               80 * (planetCounts.neptuneLike / 2 + star.st_rad / 2), //large orbital diameters
-            orbitPeriod: 365 / exo.pl_orbper + 365/2,
-            orbitTilt: -TAU * (exo.pl_orbeccen),
+            orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+            orbitTilt: -TAU * exo.pl_orbeccen,
             orbitNode: -TAU * (0.366 * planetCounts.neptuneLike),
             satelliteOf: star.id,
-            type: "planet",
-            exo:exo
+            type: 'planet',
+            exo: exo,
           };
         }
         break;
-      case "terrestrial":
+      case 'terrestrial':
         planetCounts.terrestrial++;
         /* console.log(
           "processing Terrestrial...",
@@ -197,25 +197,25 @@ const SolarSystemFactory = {
           displayName: `${exo.display_name} - ${exo.planet_type}`,
           diameter: 4 * exo.pl_radj * 6,
           color:
-            exo.visType.toLowerCase() === "lavaatmos"
+            exo.visType.toLowerCase() === 'lavaatmos'
               ? SolarSystemFactory.terrestrialColors[
                   planetCounts.terrestrial %
                     SolarSystemFactory.terrestrialColors.length
                 ]
               : SolarSystemFactory.superEarthColors[
-                planetCounts.terrestrial %
-                  SolarSystemFactory.superEarthColors.length
-              ],
+                  planetCounts.terrestrial %
+                    SolarSystemFactory.superEarthColors.length
+                ],
           orbitDiameter: 26 * (1 + planetCounts.terrestrial + star.st_rad / 2),
           orbitPeriod: 365 / exo.pl_orbper + 365,
-          orbitTilt: -TAU * (exo.pl_orbeccen),
+          orbitTilt: -TAU * exo.pl_orbeccen,
           orbitNode: -TAU * (0.138 * planetCounts.terrestrial),
           satelliteOf: star.id,
-          type: "planet",
-          exo:exo
+          type: 'planet',
+          exo: exo,
         };
         break;
-      case "super earth":
+      case 'super earth':
         planetCounts.superEarth++;
         /* console.log(
           "processing super earth...",
@@ -228,24 +228,24 @@ const SolarSystemFactory = {
           displayName: `${exo.display_name} - ${exo.planet_type}`,
           diameter: 4 * exo.pl_radj * 6,
           color:
-            exo.visType.toLowerCase() === "lavaatmos"
+            exo.visType.toLowerCase() === 'lavaatmos'
               ? SolarSystemFactory.terrestrialColors[
                   planetCounts.superEarth %
                     SolarSystemFactory.superEarthColors.length
                 ]
               : SolarSystemFactory.superEarthColors[
-                planetCounts.superEarth %
-                  SolarSystemFactory.superEarthColors.length
-              ],
+                  planetCounts.superEarth %
+                    SolarSystemFactory.superEarthColors.length
+                ],
           orbitDiameter: 21 * (1 + planetCounts.superEarth + star.st_rad / 2),
           orbitPeriod: 365 / exo.pl_orbper,
-          orbitTilt: -TAU * (exo.pl_orbeccen),
+          orbitTilt: -TAU * exo.pl_orbeccen,
           orbitNode: -TAU * (0.138 * planetCounts.superEarth),
           satelliteOf: star.id,
-          type: "planet",
-          exo:exo
+          type: 'planet',
+          exo: exo,
         };
-      case "gas giant":
+      case 'gas giant':
         planetCounts.gasGiant++;
         /* console.log(
           "processing gas giant...",
@@ -254,7 +254,7 @@ const SolarSystemFactory = {
           exo.pl_radj,
           exo.pl_orbper
         ); */
-        if (exo.plType.toLowerCase() === "super-jovian") {
+        if (exo.plType.toLowerCase() === 'super-jovian') {
           //rendering a Jupiter-style gass gianet
           //console.log("rendering jupiter style");
           return {
@@ -267,14 +267,14 @@ const SolarSystemFactory = {
                 planetCounts.gasGiant % SolarSystemFactory.gasGiantColors.length
               ],
             orbitDiameter: 40 * (1 + star.st_rad / 2),
-            orbitPeriod: 365 / exo.pl_orbper + 365/2,
-            orbitTilt: -TAU * (exo.pl_orbeccen),
+            orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+            orbitTilt: -TAU * exo.pl_orbeccen,
             orbitNode: -TAU * (0.279 * planetCounts.gasGiant),
             satelliteOf: star.id,
-            type: "planet",
-            exo:exo
+            type: 'planet',
+            exo: exo,
           };
-        } else if (exo.plType.toLowerCase() === "jovian") {
+        } else if (exo.plType.toLowerCase() === 'jovian') {
           //console.log("rendering ringed planet");
           // if it's the second gas giant, we a little ring, like Saturn 🪐
           const planetz = [];
@@ -288,16 +288,16 @@ const SolarSystemFactory = {
                 planetCounts.gasGiant % SolarSystemFactory.gasGiantColors.length
               ],
             orbitDiameter: 56 * (1 + star.st_rad / 2),
-            orbitPeriod: 365 / exo.pl_orbper + 365/2,
-            orbitTilt: -TAU * (exo.pl_orbeccen),
+            orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+            orbitTilt: -TAU * exo.pl_orbeccen,
             orbitNode: -TAU * (0.316 * planetCounts.gasGiant),
             satelliteOf: star.id,
-            type: "planet",
-            exo:exo
+            type: 'planet',
+            exo: exo,
           });
           planetz.push({
-            name: "ringSaturn",
-            color: "#edc98566",
+            name: 'ringSaturn',
+            color: '#edc98566',
             orbitDiameter: 6 * (1 + star.st_rad / 2),
             orbitTilt: -TAU * 0.05,
             satelliteOf: exo.id,
@@ -315,12 +315,12 @@ const SolarSystemFactory = {
                 planetCounts.gasGiant % SolarSystemFactory.gasGiantColors.length
               ],
             orbitDiameter: 72 * (1 + star.st_rad / 2),
-            orbitPeriod: 365 / exo.pl_orbper + 365/2,
-            orbitTilt: -TAU * (exo.pl_orbeccen),
+            orbitPeriod: 365 / exo.pl_orbper + 365 / 2,
+            orbitTilt: -TAU * exo.pl_orbeccen,
             orbitNode: -TAU * (0.206 * planetCounts.gasGiant),
             satelliteOf: star.id,
-            type: "planet",
-            exo:exo
+            type: 'planet',
+            exo: exo,
           };
         }
 
@@ -330,14 +330,14 @@ const SolarSystemFactory = {
           id: exo.id,
           displayName: `${exo.display_name} - ${exo.planet_type}`,
           diameter: 1 * (1 + star.st_rad / 2),
-          color: "#ada8a5",
+          color: '#ada8a5',
           orbitDiameter: 12 * (1 + star.st_rad / 2),
           orbitPeriod: 365 / 2,
-          orbitTilt: -TAU * (exo.pl_orbeccen),
+          orbitTilt: -TAU * exo.pl_orbeccen,
           orbitNode: -TAU * 0.314,
           satelliteOf: star.id,
-          type: "planet",
-          exo:exo
+          type: 'planet',
+          exo: exo,
         };
     }
   },

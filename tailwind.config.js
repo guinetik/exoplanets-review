@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: "jit",
-  darkMode: "class",
+  mode: 'jit',
+  darkMode: 'class',
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'  
+    './src/**/*.{js,jsx,ts,tsx}',
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     extend: {
@@ -20,11 +20,9 @@ module.exports = {
         bounce_y: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-50%)' },
-        }
-      }
+        },
+      },
     },
   },
-  plugins: [
-    require('flowbite/plugin')
-  ],
-}
+  plugins: [require('flowbite/plugin')],
+};

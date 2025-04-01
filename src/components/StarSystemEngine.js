@@ -18,24 +18,28 @@ export class StarSystemEngine {
       resize: true,
       zoom: 5,
       rotate: { y: this.TAU * 0.4, x: -this.TAU / 10 },
-      onDragStart: () => { this.isSpinning = false; },
-      onDragEnd: () => { this.isSpinning = true; },
+      onDragStart: () => {
+        this.isSpinning = false;
+      },
+      onDragEnd: () => {
+        this.isSpinning = true;
+      },
       onResize: (width, height) => {
         if (!this.illo) return;
-        
+
         // Your reference point: zoom 5 at 1200px
         const REFERENCE_ZOOM = 10;
-        const REFERENCE_SIZE = 1200; 
-        
+        const REFERENCE_SIZE = 1200;
+
         // Use the smallest dimension (width or height) for scaling
         const minDimension = Math.min(width, height);
-        
+
         // Proportional scaling: (current size / reference size) * reference zoom
         this.illo.zoom = (minDimension / REFERENCE_SIZE) * REFERENCE_ZOOM;
-        
+
         // Optional: Set min/max bounds to prevent extreme zooming
         this.illo.zoom = Math.max(5, Math.min(this.illo.zoom, 15)); // Example bounds
-      }
+      },
     });
 
     this.createPlanets();
@@ -43,14 +47,14 @@ export class StarSystemEngine {
   }
 
   createPlanets() {
-    this.planets.forEach(planet => {
-      const parentBody = planet.satelliteOf 
-        ? this.planets.find(p => p.name === planet.satelliteOf).planet 
+    this.planets.forEach((planet) => {
+      const parentBody = planet.satelliteOf
+        ? this.planets.find((p) => p.name === planet.satelliteOf).planet
         : this.illo;
       planet.anchor = new Zdog.Anchor({
         addTo: parentBody,
         translate: { z: planet.orbitTranslateZ },
-        rotate: { y: planet.orbitNode, z: planet.orbitTilt }
+        rotate: { y: planet.orbitNode, z: planet.orbitTilt },
       });
 
       planet.orbitAnchor = new Zdog.Anchor({ addTo: planet.anchor });
@@ -72,9 +76,9 @@ export class StarSystemEngine {
           diameter: planet.orbitDiameter + i * 0.3,
           quarters: 4,
           rotate: { x: this.TAU / 4 },
-          stroke: planet.name === "sun" ? 0 : 0.1,
-          color: "#fff3",
-          name: planet.name
+          stroke: planet.name === 'sun' ? 0 : 0.1,
+          color: '#fff3',
+          name: planet.name,
         });
         planet.orbits.push(orbit);
       }
@@ -88,7 +92,7 @@ export class StarSystemEngine {
         translate: { x: planet.orbitDiameter / 2 },
         stroke: planet.diameter,
         color: planet.color,
-        name: planet.name
+        name: planet.name,
       });
     }
   }
@@ -99,34 +103,34 @@ export class StarSystemEngine {
       translate: { x: planet.orbitDiameter / 2 },
       stroke: planet.diameter + planet.starLight,
       color: planet.starColor,
-      name: planet.name
+      name: planet.name,
     });
   }
 
   animate() {
-    this.planets.forEach(planet => {
+    this.planets.forEach((planet) => {
       planet.orbitAnchor.rotate.y -= this.TAU / planet.orbitPeriod / 5;
-      if (planet.satelliteOf && planet.satelliteOf !== "sun") {
-        const parent = this.planets.find(p => p.name === planet.satelliteOf);
+      if (planet.satelliteOf && planet.satelliteOf !== 'sun') {
+        const parent = this.planets.find((p) => p.name === planet.satelliteOf);
         planet.anchor.rotate.y += this.TAU / parent.orbitPeriod / 5;
       }
     });
 
     if (this.isSpinning) this.illo.rotate.y += 0.01;
     this.illo.updateRenderGraph();
-    
+
     if (!this.pause) requestAnimationFrame(() => this.animate());
   }
 
   highlightPlanet(planetName) {
-    const planetData = this.planets.find(p => p.name === planetName);
+    const planetData = this.planets.find((p) => p.name === planetName);
     if (!planetData || !planetData.planet) return;
 
     const planet = planetData.planet;
     planet.originalColor = planet.color;
     planet.originalStroke = planet.stroke;
-    
-    planet.color = "#FFF";
+
+    planet.color = '#FFF';
     planet.stroke = planet.originalStroke * 1.5;
     this.selectedPlanet = planet;
     this.pause = true;

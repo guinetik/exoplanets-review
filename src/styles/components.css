@@ -4,7 +4,7 @@
 }
 
 .lettering {
-  font-family: "lato" !important;
+  font-family: 'lato' !important;
 }
 
 .rainbowText {
@@ -72,13 +72,13 @@
 .star-cb-group > input + label:before {
   display: inline-block;
   text-indent: -9999px;
-  content: "☆";
+  content: '☆';
   color: #888;
 }
 .star-cb-group > input:checked ~ label:before,
 .star-cb-group > input + label:hover ~ label:before,
 .star-cb-group > input + label:hover:before {
-  content: "★";
+  content: '★';
   color: #ffc500;
   text-shadow: 0 0 1px #333;
 }
@@ -90,13 +90,13 @@
   width: 0.5em;
 }
 .star-cb-group:hover > input + label:before {
-  content: "☆";
+  content: '☆';
   color: #a5a8af;
   text-shadow: none;
 }
 .star-cb-group:hover > input + label:hover ~ label:before,
 .star-cb-group:hover > input + label:hover:before {
-  content: "★";
+  content: '★';
   color: #1677cb;
   text-shadow: 0 0 1px #333;
 }

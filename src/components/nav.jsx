@@ -1,13 +1,13 @@
-import { Navbar } from "flowbite-react";
-import { Dropdown } from "flowbite-react";
-import { Avatar, Modal } from "flowbite-react";
-import { NavLink, useNavigate } from "react-router-dom";
-import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../data/context";
-import { SignInModal, SignUpModal } from "./modals";
-import AppData from "../data/app.data";
-import FirebaseData from "../data/db";
-import logo from "../logo.svg";
+import { Navbar } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
+import { Avatar, Modal } from 'flowbite-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { AuthContext } from '../data/context';
+import { SignInModal, SignUpModal } from './modals';
+import AppData from '../data/app.data';
+import FirebaseData from '../data/db';
+import logo from '../logo.svg';
 /**
  * Creates a nav component with a mobile dropdown menu and sign-in options.
  * @returns A functional component to render the main site's navigation
@@ -32,7 +32,7 @@ export default function KeplerNav() {
   }, [user]);
   //
   return (
-    <div className="fixed left-0 right-0 z-50">
+    <div className='fixed left-0 right-0 z-50'>
       <SignInModal
         show={isSignInModalOpen}
         onClose={() => {
@@ -46,17 +46,17 @@ export default function KeplerNav() {
         }}
       />
       <Navbar fluid={true} rounded={true}>
-        <Navbar.Brand href="/">
+        <Navbar.Brand href='/'>
           <img
-            src="https://exoplanets.nasa.gov/assets/galaxy_icon.svg"
-            className="mr-3 h-6 sm:h-9"
-            alt="Logo"
+            src='https://exoplanets.nasa.gov/assets/galaxy_icon.svg'
+            className='mr-3 h-6 sm:h-9'
+            alt='Logo'
           />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          <span className='self-center whitespace-nowrap text-xl font-semibold dark:text-white'>
             Exoplanets Review
           </span>
         </Navbar.Brand>
-        <div className="flex md:order-2 z-50">
+        <div className='flex md:order-2 z-50'>
           <MobileNavDropDown
             doSignOut={doSignOut}
             toggleSignIn={setSignInModalOpen}
@@ -95,7 +95,7 @@ const MainNavItem = (props) => {
   return (
     <NavLink
       to={props.link}
-      className="block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white"
+      className='block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
     >
       {props.title}
     </NavLink>
@@ -116,7 +116,7 @@ const NavDropdownHeader = (props) => {
   /**
    * Creates a state to store the user's display name
    */
-  const [displayName, setDisplayName] = useState("");
+  const [displayName, setDisplayName] = useState('');
   /**
    * this hook will get the user's display name from their profile at first,
    * if it doesnt find it, will call the DB to get the user details
@@ -137,13 +137,13 @@ const NavDropdownHeader = (props) => {
   }, [props.user]);
   if (props.isSignedIn) {
     return (
-      <Dropdown.Header className="z-50">
-        <span className="block text-sm">{displayName}</span>
+      <Dropdown.Header className='z-50'>
+        <span className='block text-sm'>{displayName}</span>
       </Dropdown.Header>
     );
   } else {
     return (
-      <Dropdown.Header className="z-50">
+      <Dropdown.Header className='z-50'>
         <Dropdown.Item onClick={() => props.toggleSignIn(true)}>
           Sign In
         </Dropdown.Item>
@@ -163,8 +163,8 @@ const NavDropdownHeader = (props) => {
 const MobileNavDropDown = (props) => {
   const navigate = useNavigate();
   let userContent = null;
-  const [displayName, setDisplayName] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [displayName, setDisplayName] = useState('');
+  const [avatar, setAvatar] = useState('');
   //
   useEffect(() => {
     async function fetchData() {
@@ -174,7 +174,7 @@ const MobileNavDropDown = (props) => {
       const avatar = userContent
         ? userContent.avatar
         : `https://ui-avatars.com/api/?name=${displayName}`;
-      console.log("avatar:", avatar);
+      console.log('avatar:', avatar);
       setAvatar(avatar);
     }
     if (props.user) {
@@ -190,10 +190,10 @@ const MobileNavDropDown = (props) => {
    */
   const onDropdownClick = (e, item) => {
     e.preventDefault();
-    console.log("onDropdownClick:", item);
-    if (item.key === "signout") {
+    console.log('onDropdownClick:', item);
+    if (item.key === 'signout') {
       props.doSignOut(e);
-    } else if (item.key == "random-planet") {
+    } else if (item.key == 'random-planet') {
       const randomPlanet =
         AppData.exoplanets[
           Math.floor(Math.random() * AppData.exoplanets.length)
@@ -206,9 +206,9 @@ const MobileNavDropDown = (props) => {
   //console.log("NavDropDown", isSignedIn, props.items);
   const dropdownItems = props.items.map((item) => {
     if (
-      item.show === "always" ||
-      (item.show === "signedin" && isSignedIn) ||
-      (item.show === "signedout" && !isSignedIn)
+      item.show === 'always' ||
+      (item.show === 'signedin' && isSignedIn) ||
+      (item.show === 'signedout' && !isSignedIn)
     ) {
       //console.log("showing", item.title);
       if (item.divider) {
@@ -242,13 +242,18 @@ const MobileNavDropDown = (props) => {
   let avatarLabel;
   const user = props.user;
   if (isSignedIn && user) {
-    avatarLabel = <Avatar alt="User" img={avatar} rounded={true} />;
+    avatarLabel = <Avatar alt='User' img={avatar} rounded={true} />;
   } else {
-    avatarLabel = <Avatar alt="User" img={logo} rounded={true} />;
+    avatarLabel = <Avatar alt='User' img={logo} rounded={true} />;
   }
 
   return (
-    <Dropdown arrowIcon={false} inline={true} label={avatarLabel} dismissOnClick={true}>
+    <Dropdown
+      arrowIcon={false}
+      inline={true}
+      label={avatarLabel}
+      dismissOnClick={true}
+    >
       <NavDropdownHeader
         isSignedIn={isSignedIn}
         user={props.user}

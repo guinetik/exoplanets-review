@@ -15,20 +15,20 @@ const StarSystemPlanets = ({ planets, solarSystem }) => {
 
     let link, className;
     switch (planet.type) {
-      case "star":
+      case 'star':
         link = `/star/${planet.id}`;
         className =
-          "text-orange-500 hover:text-white active:text-white transition-all";
+          'text-orange-500 hover:text-white active:text-white transition-all';
         break;
-      case "moon":
+      case 'moon':
         link = `/planets/${planet.id}`;
         className =
-          "text-blue-500 hover:text-white active:text-white transition-all";
+          'text-blue-500 hover:text-white active:text-white transition-all';
         break;
       default:
         link = `/planets/${planet.id}`;
         className =
-          "text-green-500 hover:text-white active:text-white transition-all";
+          'text-green-500 hover:text-white active:text-white transition-all';
         break;
     }
 
@@ -48,13 +48,13 @@ const StarSystemPlanets = ({ planets, solarSystem }) => {
   });
 
   return (
-    <div className="rounded-lg absolute z-10 p-4 h-auto lg:h-full">
+    <div className='rounded-lg absolute z-10 p-4 h-auto lg:h-full'>
       <Accordion alwaysOpen={true}>
         <Accordion.Panel>
           <Accordion.Title>Planetary Bodies</Accordion.Title>
           <Accordion.Content>
-            <ul className="text-white">{planetLinks}</ul>
-            <aside className="text-sm text-slate-300 mt-2">
+            <ul className='text-white'>{planetLinks}</ul>
+            <aside className='text-sm text-slate-300 mt-2'>
               Click to visit a planet
             </aside>
           </Accordion.Content>

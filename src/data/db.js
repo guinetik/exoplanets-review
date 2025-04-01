@@ -1,6 +1,6 @@
-import "./types";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import './types';
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
 import {
   GoogleAuthProvider,
   getAuth,
@@ -9,7 +9,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-} from "firebase/auth";
+} from 'firebase/auth';
 import {
   getFirestore,
   query,
@@ -20,7 +20,7 @@ import {
   orderBy,
   addDoc,
   Firestore,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -80,7 +80,7 @@ class DBConnection {
     orderByFunction,
     limitFunction
   ) => {
-    if(orderByFunction) {
+    if (orderByFunction) {
       return query(firebaseCollection, whereConstraint, orderByFunction);
     } else {
       return query(firebaseCollection, whereConstraint);
@@ -117,7 +117,11 @@ class DBConnection {
     limitFunction
   ) => {
     return getDocs(
-      this.queryDb(this.getCollection(collectionName), whereConstraint, orderByFunction)
+      this.queryDb(
+        this.getCollection(collectionName),
+        whereConstraint,
+        orderByFunction
+      )
     );
   };
   /**
@@ -131,9 +135,9 @@ class DBConnection {
     return new Promise(async (resolve, reject) => {
       try {
         const reviews = await this.getCollectionItems(
-          "reviews",
-          where("planet", "==", planetId),
-          orderBy("date", "desc")
+          'reviews',
+          where('planet', '==', planetId),
+          orderBy('date', 'desc')
         );
         //console.log("reviews", reviews);
         if (reviews && !reviews.empty) {
@@ -178,7 +182,7 @@ class DBConnection {
       rate: rating,
     };
     //console.log("review", review);
-    return this.addToCollection(this.getCollection("reviews"), review);
+    return this.addToCollection(this.getCollection('reviews'), review);
   };
   /**
    * Calls the google auth provider and performs a sign in with popup.
@@ -189,20 +193,20 @@ class DBConnection {
       const res = await signInWithPopup(this.auth, this.googleProvider);
       const user = res.user;
       const docs = await this.getCollectionItems(
-        "users",
-        where("uid", "==", user.uid)
+        'users',
+        where('uid', '==', user.uid)
       );
       if (docs.docs.length === 0) {
-        await this.addToCollection(this.getCollection("users"), {
+        await this.addToCollection(this.getCollection('users'), {
           uid: user.uid,
           name: user.displayName,
-          authProvider: "google",
+          authProvider: 'google',
           email: user.email,
           avatar: user.photoURL,
         });
       }
       if (this.messageHandler) {
-        this.messageHandler("Signed in successfully");
+        this.messageHandler('Signed in successfully');
       }
     } catch (err) {
       console.error(err);
@@ -225,8 +229,8 @@ class DBConnection {
         return this.loggedUserContent;
       }
       const docs = await this.getCollectionItems(
-        "users",
-        where("email", "==", email)
+        'users',
+        where('email', '==', email)
       );
       if (docs.docs.length === 0) {
         return null;
@@ -246,8 +250,8 @@ class DBConnection {
   getUserById = async (uid) => {
     if (uid) {
       const docs = await this.getCollectionItems(
-        "users",
-        where("uid", "==", uid)
+        'users',
+        where('uid', '==', uid)
       );
       if (docs.empty) {
         return null;
@@ -288,10 +292,10 @@ class DBConnection {
         password
       );
       const user = res.user;
-      this.addToCollection(this.getCollection("users"), {
+      this.addToCollection(this.getCollection('users'), {
         uid: user.uid,
         name,
-        authProvider: "local",
+        authProvider: 'local',
         email,
       });
     } catch (err) {
@@ -310,7 +314,7 @@ class DBConnection {
   sendPasswordReset = async (email) => {
     try {
       await sendPasswordResetEmail(FirebaseData.auth, email);
-      alert("Password reset link sent!");
+      alert('Password reset link sent!');
     } catch (err) {
       console.error(err);
       if (FirebaseData.errorHandler) {

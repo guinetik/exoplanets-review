@@ -1,27 +1,29 @@
 /**
- * This is a Jupyter notebook-like data exploration with the 
+ * This is a Jupyter notebook-like data exploration with the
  * stars and planet data from NASA.
  * The JSON files were generated from https://exoplanets.nasa.gov/eyes-on-exoplanets/.
  * I just ran some console commands until I got them 4HEAD.
- * Turns out the NASA API is pretty fragmented and the awesome 
+ * Turns out the NASA API is pretty fragmented and the awesome
  * devs behind that project did a very good job on cleaning it up.
  * However, this data is too much for the scope of the
  * project since I'm only targeting the TESS discovries for now.
- * So I'm going to filter out the the stars 
+ * So I'm going to filter out the the stars
  * that are not in the TESS list.
  * I got the TESS CSV from: https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PS&constraint=default_flag=1&constraint=disc_facility+like+%27%25TESS%25%27
  */
-"use strict";
-import fs from "fs";
-import CSVToJSON from "csvtojson";
-import fetch from "node-fetch";
+'use strict';
+import fs from 'fs';
+import CSVToJSON from 'csvtojson';
+import fetch from 'node-fetch';
 const keypress = async () => {
-  process.stdin.setRawMode(true)
-  return new Promise(resolve => process.stdin.once('data', () => {
-    process.stdin.setRawMode(false)
-    resolve()
-  }))
-}
+  process.stdin.setRawMode(true);
+  return new Promise((resolve) =>
+    process.stdin.once('data', () => {
+      process.stdin.setRawMode(false);
+      resolve();
+    })
+  );
+};
 //
 /**
  * This function searches the NASA Exoplanet API for the given star,
@@ -31,10 +33,10 @@ const keypress = async () => {
  * @param {Array} planets - the base exoplanet json from exoplanetarchive
  */
 const fetchExoplanetContentFromApi = async (stars, planets) => {
-  console.log("Reading Exoplanet API data.", stars.length, "Stars to process");
+  console.log('Reading Exoplanet API data.', stars.length, 'Stars to process');
   //https://exoplanets.nasa.gov/api/v1/stars/?condition_1=HAT-P-13:exo_id
   const BASE_URL =
-    "https://exoplanets.nasa.gov/api/v1/{entity}/?condition_1={key}:pl_hostname";
+    'https://exoplanets.nasa.gov/api/v1/{entity}/?condition_1={key}:pl_hostname';
   const STARS_URL =
     "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+distinct+hostname+hostname,rastr,decstr,sy_dist,sy_plx,elat,elon,glat,glon,sy_pmra,sy_pmdec,sy_tmag,sy_pm,sy_snum,sy_pnum,sy_mnum,st_teff,st_rad,st_mass,st_met,st_metratio,st_lum,st_age,st_dens,st_rotp+from+ps+where+hostname+=+'{HOSTNAME}'&format=json";
   /**
@@ -42,8 +44,8 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
    * @param {Array} planets - the merged exoplanet data + content from the API
    */
   const exportPlanets = (planets) => {
-    console.log("Exporting planets to file...", planets.length);
-    fs.writeFileSync("out/exoplanets.json", JSON.stringify(planets, null, 0));
+    console.log('Exporting planets to file...', planets.length);
+    fs.writeFileSync('out/exoplanets.json', JSON.stringify(planets, null, 0));
   };
   // sometimes the API is finicky so I'm putting a control here to limit the number of processed stars during testing
   const planetz = [];
@@ -55,13 +57,13 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
   let starsContentProcessed = 0;
   // loop through the stars and fetch the exoplanet data
   stars.slice(0, totalStarsToProcess).forEach(async (star) => {
-    const planetsUrl = BASE_URL.replaceAll("{entity}", "planets").replaceAll(
-      "{key}",
+    const planetsUrl = BASE_URL.replaceAll('{entity}', 'planets').replaceAll(
+      '{key}',
       star.key
     );
-    const starsUrl = STARS_URL.replaceAll("{HOSTNAME}", star.displayName);
-    console.log("Downloading data for:", star.key);
-    console.log("fetching data from:", planetsUrl);
+    const starsUrl = STARS_URL.replaceAll('{HOSTNAME}', star.displayName);
+    console.log('Downloading data for:', star.key);
+    console.log('fetching data from:', planetsUrl);
     fetch(planetsUrl)
       .then((res) => {
         if (res.ok) return res.json();
@@ -71,11 +73,11 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
         const hasData = res && res.total && res.total > 0;
         // logging response
         console.log(
-          "Got Response for Key:",
+          'Got Response for Key:',
           star.key,
-          "- Has Data:",
+          '- Has Data:',
           hasData,
-          hasData ? "- Total:" : "- Status:",
+          hasData ? '- Total:' : '- Status:',
           hasData ? res.total : res
         );
         // if there is data, merge it with the eyes-on-exoplanets data and push it to the return array
@@ -88,13 +90,13 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
                   return key === planet.exo_id;
                 })
               ];
-            console.log("processing", tessPlanet.id);
+            console.log('processing', tessPlanet.id);
             planetz.push({ ...planet, ...tessPlanet });
           });
         } else {
-          console.log("No Records found for", star.key, res);
+          console.log('No Records found for', star.key, res);
         }
-        console.log("Exoplanet Content", planetz.length, res.total);
+        console.log('Exoplanet Content', planetz.length, res.total);
         // increment the processed stars
         starsProcessed++;
         // if all stars have been processed, export the data
@@ -106,10 +108,10 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
       });
     //
     const exportStars = (exostars) => {
-      console.log("Exporting stars to file...", exostars.length);
-      fs.writeFileSync("out/exostars.json", JSON.stringify(exostars, null, 0));
+      console.log('Exporting stars to file...', exostars.length);
+      fs.writeFileSync('out/exostars.json', JSON.stringify(exostars, null, 0));
     };
-    console.log("fetching data from:", starsUrl);
+    console.log('fetching data from:', starsUrl);
     fetch(starsUrl)
       .then((res) => {
         starsContentProcessed++;
@@ -117,13 +119,13 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
         else return res.status();
       })
       .then((res) => {
-        console.log("res", res);
+        console.log('res', res);
         if (res.length === 0) {
           starz.push(star);
         } else if (res.length === 1) {
           starz.push({ ...star, ...res[0] });
         } else if (res.length > 1) {
-          console.log("response has more than 1 possibility...reducing....");
+          console.log('response has more than 1 possibility...reducing....');
           const reduced = res.reduce((acc, cur) => {
             if (acc) {
               Object.keys(cur).forEach((key) => {
@@ -138,13 +140,13 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
               return cur;
             }
           }, {});
-          console.log("reduced", reduced);
+          console.log('reduced', reduced);
           starz.push({ ...star, ...reduced });
         }
         //
-        console.log("starsContentProcessed", starsContentProcessed);
+        console.log('starsContentProcessed', starsContentProcessed);
         if (starsContentProcessed === totalStarsToProcess) {
-          console.log("STARS CONTENT", starz);
+          console.log('STARS CONTENT', starz);
           exportStars(Utils.filterFeatures(starz, Utils.STAR_COLUMNS_TO_KEEP));
         }
       });
@@ -159,13 +161,13 @@ const fetchExoplanetContentFromApi = async (stars, planets) => {
 const loadAndProcessStuff = async () => {
   let raw = null;
   // read stars
-  raw = fs.readFileSync("raw/stars.json");
+  raw = fs.readFileSync('raw/stars.json');
   let stars = JSON.parse(raw);
-  console.log("stars", Object.keys(stars).length);
+  console.log('stars', Object.keys(stars).length);
   // read planets
-  raw = fs.readFileSync("raw/planets.json");
+  raw = fs.readFileSync('raw/planets.json');
   let planets = JSON.parse(raw);
-  console.log("planets", Object.keys(planets).length);
+  console.log('planets', Object.keys(planets).length);
   // star filters
   stars = Object.keys(stars)
     //.filter((key) => stars[key].planet_count > 1) // stars with confirmed planets
@@ -174,9 +176,9 @@ const loadAndProcessStuff = async () => {
     .reduce((cur, key) => {
       return Object.assign(cur, { [key]: stars[key] });
     }, {});
-  console.log("filtered", Object.keys(stars).length);
+  console.log('filtered', Object.keys(stars).length);
   //
-  console.group("Calculating distance from Earth...");
+  console.group('Calculating distance from Earth...');
   // let's populate a property with a distance that we can export out later
   Utils.populateDistancesFromEarth(stars);
   // showing only top 10 distances
@@ -208,25 +210,25 @@ const loadAndProcessStuff = async () => {
       return cur;
     }, []);
   //
-  console.log("TESS Stars found in JSON data:", tessStars.length);
-  console.log("TESS Planets found in JSON data:", tessPlanets.length);
+  console.log('TESS Stars found in JSON data:', tessStars.length);
+  console.log('TESS Planets found in JSON data:', tessPlanets.length);
   console.log(
-    "JSON Planet data matches TESS CSV data: ",
+    'JSON Planet data matches TESS CSV data: ',
     tessPlanets.length === Utils.TESS_PLANET_NAMES.length
   );
   await keypress();
   //
   const saveTessPlanets = () => {
-    console.log("saving tess planets to file");
+    console.log('saving tess planets to file');
     fs.writeFileSync(
-      "out/tess-planets.json",
+      'out/tess-planets.json',
       JSON.stringify(tessPlanets, null, 0)
     );
   };
   const saveTessStars = () => {
-    console.log("saving tess stars to file");
+    console.log('saving tess stars to file');
     fs.writeFileSync(
-      "out/tess-stars.json",
+      'out/tess-stars.json',
       JSON.stringify(
         Utils.filterFeatures(tessStars, Utils.STAR_COLUMNS_TO_KEEP),
         null,
@@ -244,19 +246,19 @@ const loadAndProcessStuff = async () => {
  */
 const Utils = {
   STAR_COLUMNS_TO_KEEP:
-    "id,ra,hostname,displayName,starType,color,constellation,planets,positionJ2000,distanceFromEarth,sy_snum,sy_pnum,sy_mnum,st_teff,st_rad,st_mass,rastr,decstr,sy_dist,sy_plx,elat,elon,glat,glon,sy_pmra,sy_pmdec,sy_tmag,sy_pm,st_met,st_metratio,st_lum,st_age,st_dens,st_rotp,discoverymethod,disc_year,disc_locale,disc_facility,disc_telescope".split(
-      ","
+    'id,ra,hostname,displayName,starType,color,constellation,planets,positionJ2000,distanceFromEarth,sy_snum,sy_pnum,sy_mnum,st_teff,st_rad,st_mass,rastr,decstr,sy_dist,sy_plx,elat,elon,glat,glon,sy_pmra,sy_pmdec,sy_tmag,sy_pm,st_met,st_metratio,st_lum,st_age,st_dens,st_rotp,discoverymethod,disc_year,disc_locale,disc_facility,disc_telescope'.split(
+      ','
     ),
   EXOPLANET_COLUMNS_TO_KEEP:
-    "id,pl_rade,visType,pl_bmasse,pl_radj,pl_orbper,pl_orbeccen,discoverymethod,disc_year,disc_facility,plType,pl_hostname,pl_letter,display_name,description,url,mass_display,planet_type,pl_discmethod,image,list_image,short_description,subtitle,pl_facility,period_display".split(
-      ","
+    'id,pl_rade,visType,pl_bmasse,pl_radj,pl_orbper,pl_orbeccen,discoverymethod,disc_year,disc_facility,plType,pl_hostname,pl_letter,display_name,description,url,mass_display,planet_type,pl_discmethod,image,list_image,short_description,subtitle,pl_facility,period_display'.split(
+      ','
     ),
   EARTH_OCCUSION_RADIUS: 6378.1,
-  APPENDIX: "light-years",
-  BI: " billion mi",
-  MI: " million mi",
-  TH: " thousand mi",
-  mm: " mi",
+  APPENDIX: 'light-years',
+  BI: ' billion mi',
+  MI: ' million mi',
+  TH: ' thousand mi',
+  mm: ' mi',
   /**
    * Filters the object based on a list of fields to keep.
    * @param {Object} obj - any key/value object
@@ -315,16 +317,17 @@ const Utils = {
   convertToDistanceString: function (t) {
     // black magic with exponential notation
     return t < 0
-      ? "Unknown"
+      ? 'Unknown'
       : (t > 9461e9
           ? (t = `${Math.round(t / 9461e9)} ${Utils.APPENDIX}`)
           : t > 1e9
-          ? (t = `${Math.round((0.6213712 * t) / 1e9)} ${Utils.BI}`)
-          : t > 1e6
-          ? (t = `${Math.round((0.6213712 * t) / 1e6)} ${Utils.MI}`)
-          : t > 1e3
-          ? (t = `${Math.round((0.6213712 * t) / 1e3)} ${Utils.TH}`)
-          : t > 0 && (t = `${Math.round(0.6213712 * t * 10) / 10} ${Utils.M}`),
+            ? (t = `${Math.round((0.6213712 * t) / 1e9)} ${Utils.BI}`)
+            : t > 1e6
+              ? (t = `${Math.round((0.6213712 * t) / 1e6)} ${Utils.MI}`)
+              : t > 1e3
+                ? (t = `${Math.round((0.6213712 * t) / 1e3)} ${Utils.TH}`)
+                : t > 0 &&
+                  (t = `${Math.round(0.6213712 * t * 10) / 10} ${Utils.M}`),
         t);
   },
   /**
@@ -362,25 +365,25 @@ const Utils = {
  */
 async function loadTessCSV() {
   CSVToJSON()
-    .fromFile("raw/tess-planets.csv")
+    .fromFile('raw/tess-planets.csv')
     .then((tessPlanets) => {
       console.log(
-        "TESS Planets Loaded: ",
+        'TESS Planets Loaded: ',
         tessPlanets.slice(0, 1),
-        "...",
+        '...',
         tessPlanets.length,
-        "TOTAL"
+        'TOTAL'
       );
       // reduce tessPlanets to just the names replacing spaces with underscores
       Utils.TESS_PLANET_NAMES = tessPlanets.map((planet) =>
-        planet["Planet Name"].replaceAll(" ", "_")
+        planet['Planet Name'].replaceAll(' ', '_')
       );
       Utils.TESS_STAR_NAMES = tessPlanets.map((planet) =>
-        planet["Host Name"].replaceAll(" ", "_")
+        planet['Host Name'].replaceAll(' ', '_')
       );
-      console.log("Planets Names Sanitized");
+      console.log('Planets Names Sanitized');
       console.table(Utils.TESS_PLANET_NAMES.slice(0, 10));
-      console.log("Stars Names Sanitized");
+      console.log('Stars Names Sanitized');
       console.table(Utils.TESS_STAR_NAMES.slice(0, 10));
       loadAndProcessStuff();
     })

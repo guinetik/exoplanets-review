@@ -1,10 +1,11 @@
-import AppData from "../data/app.data";
-import { useState, useEffect } from "react";
-import { FcNext, FcPrevious } from "react-icons/fc";
-import { Button } from "flowbite-react";
-import FirebaseData from "../data/db";
+import AppData from '../data/app.data';
+import { useState, useEffect } from 'react';
+import { FcNext, FcPrevious } from 'react-icons/fc';
+import { Button } from 'flowbite-react';
+import FirebaseData from '../data/db';
 
 export default function Apod() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   const d = new Date();
   d.setHours(12, 0, 0);
   const [apodDate, setApodDate] = useState(d);
@@ -17,10 +18,10 @@ export default function Apod() {
   };
 
   const getYouTubeEmbedUrl = (url) => {
-    // Handle both regular YouTube links and shortened youtu.be links
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    const videoId = (match && match[2].length === 11) ? match[2] : null;
+    const videoId = match && match[2].length === 11 ? match[2] : null;
     return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
   };
 
@@ -33,12 +34,12 @@ export default function Apod() {
 
     if (isYouTubeUrl(apod.url)) {
       return (
-        <div className="relative w-full h-0 pb-[56.25%]"> {/* 16:9 aspect ratio */}
+        <div className='relative w-full h-0 pb-[56.25%]'>
           <iframe
-            className="absolute top-0 left-0 w-full h-full"
+            className='absolute top-0 left-0 w-full h-full'
             src={getYouTubeEmbedUrl(apod.url)}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            frameBorder='0'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
             title={apod.title}
           />
@@ -46,8 +47,8 @@ export default function Apod() {
       );
     } else if (isVideo(apod.url)) {
       return (
-        <video 
-          className="w-full h-auto max-h-[80vh]"
+        <video
+          className='w-full h-auto max-h-[80vh]'
           controls
           autoPlay
           muted
@@ -59,9 +60,13 @@ export default function Apod() {
       );
     } else {
       return (
-        <a href={apod.hdurl || apod.url} target="_blank" rel="noopener noreferrer">
+        <a
+          href={apod.hdurl || apod.url}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           <img
-            className="object-cover w-full h-full object-bottom"
+            className='object-cover w-full h-full object-bottom'
             src={apod.url}
             alt={apod.title}
           />
@@ -93,8 +98,7 @@ export default function Apod() {
   async function fetchData(date = apodDate) {
     const dateString = AppData.getFormattedDate(date);
     const apodResponse = await AppData.loadAstronomyPictureOfTheDay(dateString);
-    
-    console.log("apodResponse", apodResponse);
+
     if (apodResponse.error) {
       FirebaseData.messageHandler(apodResponse.error.message);
       return;
@@ -114,71 +118,67 @@ export default function Apod() {
   }, []);
 
   return (
-    <main className="w-full flex justify-center items-center h-screen">
-      <div className="md:m-auto">
-        <h1 className="text-white glow lettering uppercase font-light px-2 mb-8 text-center w-full text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-6xl mt-72 sm:mt-68 md:mt-24 lg:mt-24">
+    <main className='w-full min-h-[calc(100vh-4rem)] flex flex-col items-center py-4 px-4'>
+      <div className='w-full max-w-3xl'>
+        <h1 className='text-white glow lettering uppercase font-light mb-6 text-center text-3xl md:text-4xl'>
           Astronomy Picture of the Day
         </h1>
+
         {!apod && (
-          <div className="h-screen w-screen flex justify-center items-center">
-            <h1 className="text-xl lettering glow uppercase text-white">
+          <div className='flex justify-center items-center py-16'>
+            <h1 className='text-xl lettering glow uppercase text-white'>
               Loading...
             </h1>
           </div>
         )}
+
         {apod && (
-          <div className="w-full flex items-center justify-center h-[calc(100vh)] mb-8">
-            <div className="mx-8 h-full">
-              <div className="w-full rounded-xl bg-gradient-to-b p-2 h-max from-teal-500 to-purple-900">
-                <div className="xl:flex">
-                  <figure className="w-full relative overflow-hidden rounded-tl-xl lg:rounded-bl-none rounded-tr-lg xl:rounded-tr-none xl:rounded-bl-lg">
-                    {renderMedia()}
-                    {apod.copyright && (
-                      <footer className="py-3 px-3 bg-slate-800 text-xs text-white font-mono absolute bottom-0 right-0 left-0 rounded-bl-lg bg-opacity-80 border-t-[1px] border-slate-900">
-                        <aside>© {apod.copyright}</aside>
-                      </footer>
-                    )}
-                  </figure>
-                  <section className="border-l-[1px] border-slate-500 p-4 space-y-3 w-full rounded-bl-lg rounded-br-lg xl:rounded-bl-none xl:rounded-tr-lg bg-black bg-opacity-80 xl:w-1/2">
-                    <div className="place-self-center">
-                      <h1 className="w-full lettering mb-4 mt-2 tracking-tight leading-none text-cyan-200 text-2xl sm:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl">
-                        {apod.date}:<strong>{apod.title}</strong>
-                      </h1>
-                      <p className="w-full p-2 lg:p-6 font-light text-sm italic letter text-slate-300 mt-4 shadow-sm leading-loose tracking-wide">
-                        {apod.explanation}
-                      </p>
-                      <div className="grid items-center md:grid-cols-2 grid-cols-1 justify-items-stretch md:justify-items-center fluid-button-bar gap-4 my-8 mx-4 sm:mx-1 lg:mx-10">
-                        <Button
-                          onClick={doLoadPreviousDay}
-                          outline={true}
-                          gradientDuoTone="purpleToBlue"
-                          size="xl"
-                        >
-                          <FcPrevious
-                            className="text-xl group-hover:animate-bounce_x transition-all text-white"
-                            color="#FFFFFFF"
-                            size={28}
-                          />
-                          <span className="text-md">Yesterday</span>
-                        </Button>
-                        <Button
-                          disabled={!nextEnabled}
-                          onClick={doLoadNextDay}
-                          outline={true}
-                          gradientDuoTone="purpleToBlue"
-                          size="xl"
-                        >
-                          <span className="text-md">Tomorrow</span>
-                          <FcNext
-                            className="text-xl group-hover:animate-bounce_x transition-all"
-                            size={28}
-                          />
-                        </Button>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
+          <div className='w-full space-y-6'>
+            {/* Media Section */}
+            <div className='w-full rounded-xl bg-gradient-to-b p-1 from-teal-500 to-purple-900'>
+              <figure className='w-full relative overflow-hidden rounded-lg'>
+                {renderMedia()}
+                {apod.copyright && (
+                  <footer className='py-2 px-3 bg-slate-800 text-xs text-white font-mono absolute bottom-0 right-0 left-0 rounded-b-lg bg-opacity-80'>
+                    <aside>© {apod.copyright}</aside>
+                  </footer>
+                )}
+              </figure>
+            </div>
+
+            {/* Content Section */}
+            <div className='w-full rounded-lg bg-black bg-opacity-80 p-4 border border-slate-600'>
+              <h2 className='lettering mb-3 leading-tight text-cyan-200 text-xl md:text-2xl'>
+                {apod.date}: <strong>{apod.title}</strong>
+              </h2>
+              <p className='font-light text-sm md:text-base italic text-slate-300 leading-relaxed'>
+                {apod.explanation}
+              </p>
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className='flex justify-center gap-2 mt-4'>
+              <Button
+                onClick={doLoadPreviousDay}
+                outline={true}
+                gradientDuoTone='purpleToBlue'
+                size='xl'
+                className='px-4 py-2'
+              >
+                <FcPrevious className='text-xl group-hover:animate-bounce_x transition-all' />
+                <span className='ml-2'>Yesterday</span>
+              </Button>
+              <Button
+                disabled={!nextEnabled}
+                onClick={doLoadNextDay}
+                outline={true}
+                gradientDuoTone='purpleToBlue'
+                size='xl'
+                className='px-4 py-2'
+              >
+                <span className='mr-2'>Tomorrow</span>
+                <FcNext className='text-xl group-hover:animate-bounce_x transition-all' />
+              </Button>
             </div>
           </div>
         )}
