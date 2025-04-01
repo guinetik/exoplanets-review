@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 // Function to increment version
 function incrementVersion(version) {
   const parts = version.split('.');
-  parts[1] = (parseInt(parts[1]) + 1).toString(); // Increment minor version
+  parts[2] = (parseInt(parts[2]) + 2).toString(); // Increment minor version
   return parts.join('.');
 }
 
