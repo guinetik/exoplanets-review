@@ -142,7 +142,7 @@ export default function PlanetPage() {
                     </div>
                   </div>
                 </div>
-                <div className="w-full bg-gradient-to-b from-cyan-500 to-green-500 p-1 rounded-lg xl:col-span-1 2xl:col-span-1">
+                <div className="w-full bg-gradient-to-b from-cyan-500 to-green-500 p-1 rounded-lg xl:col-span-1 2xl:col-span-1  overflow-hidden">
                   <div className="bg-black rounded-lg overflow-hidden h-full">
                     <PlanetTable planet={planet} />
                   </div>

@@ -38,15 +38,12 @@ export default function Star() {
           </h1>
           {star ? (
             <div
-              className="
-        w-full h-full
-        p-4 gap-4
-        grid xl:grid-cols-5 2xl:grid-cols-5"
+              className="w-full h-full p-4 gap-4"
             >
               <div
                 className="col-span-1 xl:col-span-3 2xl:col-span-3
                 h-[calc(50vh)]
-              xl:h-[calc(100vh-15rem)]
+                xl:h-[calc(100vh-15rem)]
             rounded-lg bg-gradient-to-tr p-0.5 from-cyan-300 to-fuchsia-500"
               >
                 <div className="w-full h-full relative">
@@ -56,7 +53,7 @@ export default function Star() {
                 </div>
               </div>
               <div
-                className="col-span-1 xl:col-span-2 2xl:col-span-2 overflow-hidden
+                className="col-span-1 xl:col-span-2 2xl:col-span-2 overflow-hidden mt-10
               h-full rounded-lg bg-gradient-to-tr p-0.5 from-cyan-300 to-fuchsia-500"
               >
                 <StarTable star={star} />

@@ -248,7 +248,7 @@ const MobileNavDropDown = (props) => {
   }
 
   return (
-    <Dropdown arrowIcon={false} inline={true} label={avatarLabel}>
+    <Dropdown arrowIcon={false} inline={true} label={avatarLabel} dismissOnClick={true}>
       <NavDropdownHeader
         isSignedIn={isSignedIn}
         user={props.user}

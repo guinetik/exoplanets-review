@@ -12,7 +12,7 @@ export default function Home() {
         >
           Welcome to Exoplanets Review
         </h1>
-        <div className="w-full flex items-center justify-center h-scren">
+        <div className="w-full flex items-center justify-center h-scren p-8">
           <div className="container mx-6 sm:mx-8 md:mx-8 lg:mx-0">
             <div className="w-full rounded-xl bg-gradient-to-b p-[5px] from-cyan-300 to-slate-700">
               <div className="xl:flex">

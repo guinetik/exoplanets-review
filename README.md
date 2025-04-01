@@ -17,8 +17,11 @@ You can browse the planets and leave a review with your thoughts on it, Data was
 
 To run the program locally, download the repo and run:
 ```
-npm install
+npm install --legacy-peer-deps
 ```
+
+**The firebase-react dependency is stuck on an old version of react thus the `--legacy-peer-deps` flag is needed.**
+
 Then to start a server locally, you can run:
 ```
 npm run dev
